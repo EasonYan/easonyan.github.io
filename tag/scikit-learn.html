@@ -2,7 +2,7 @@
 <html lang="zn">
 <head>
         <meta charset="utf-8" />
-        <title>eason_blog</title>
+        <title>eason_blog - scikit-learn</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -21,36 +21,7 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/da-jian-pelicanyu-githubde-bo-ke.html">搭建pelican与github的博客</a></h1>
-<footer class="post-info">
-        <abbr class="published" title="2014-07-20T00:00:00">
-                周日 20 七月 2014
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/eason.html">eason</a>
-        </address>
-<p>In <a href="/category/bazinga.html">bazinga</a>. </p>
-<p>tags: <a href="/tag/python.html">python</a></p>
-</footer><!-- /.post-info --><p>废话巴拉巴拉开始
-这学期中开始想要折腾一个博客，学的是python，pelican当然是首选。
-学习过程中爬的坑还是不少，借助网络的资源，大抵也都能够解决。
-搜索pelican+github为关键字，网络上也有蛮多教程的，由于是在window上搭建，没有make命令，安装make命令后又有各种乱起八糟的错误，索性就直接用<em>pelican content - o output -s pelicanconf.py</em>来生成html文件，也都挺好用，就是命令行长了一点。</p>
-<p>很深刻的感触的是，人真的要学会分享，如何能够在有限的时间学到足够广袤的知识呢，互联网开源精神值得敬重。从小到大，我们所谓的学习，大部分都是在学习人类几千年来传承下来的经验和工具，创造永远都不是凭空的，即使无法创新，单单学习这些东西，都够你受用了。</p>
-<p>也恰好暑假会开始折腾下小小的文本分析，有坑，与君共勉。</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/scikit-learnzhong-guan-yu-tf-idfde-ji-suan.html" rel="bookmark"
-                           title="Permalink to scikit-learn中关于TF-IDF的计算">scikit-learn中关于TF-IDF的计算</a></h1>
-                </header>
-
-                <div class="entry-content">
+                    <h1 class="entry-title"><a href="/scikit-learnzhong-guan-yu-tf-idfde-ji-suan.html">scikit-learn中关于TF-IDF的计算</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2014-07-20T00:00:00">
                 周日 20 七月 2014
@@ -61,17 +32,16 @@
         </address>
 <p>In <a href="/category/mechine-learning.html">mechine learning</a>. </p>
 <p>tags: <a href="/tag/python.html">python</a><a href="/tag/scikit-learn.html">scikit-learn</a></p>
-</footer><!-- /.post-info -->                <h6></h6>
+</footer><!-- /.post-info --><h6></h6>
 <p>TF-IDF是文本特征向量的一种表达形式，可用于文本聚类和分类。谈及python的mechine learning,难以避免会涉及第三方的库sickit-learn。方便好用，接口多。稍嫌麻烦是其安装过程，pip安装报错，easy_install也莫名奇妙的错误，windows下简直不能忍受。后来一怒之下，上了<a href="http://sourceforge.net/projects/scipy/files/scipy/0.14.0/"><em>sorcepage</em></a>下载可执行文件。exe果真方便啊。</p>
 <p>TF-IDF在scikit-learn中的<em>sklearn.feature_extraction.text</em>给出，那是如何计算呢。一般来讲，TF(term frequency)词在某一文档中出现的频率，IDF(inverse document frequency，IDF),由总文件数目除以包含该词语之文件的数目，再将得到的商取对数。但scikit-learn中的TfidfTransformer类提供了对TF-IDF值的优化，会通过相应参数改变TF-IDF值，其中有“norm”-&gt;是否进行向量规范化，“smooth_idf”-&gt;则会对文档总数、出现次数+1，对数完后再+1。具体stackoverflow上有篇帖子讲得很清楚，源代码也有贴出。<a href="http://stackoverflow.com/questions/24032485/difference-in-values-of-tf-idf-matrix-using-scikit-learn-and-hand-calculation">点此</a>。</p>
-<p>至于特征向量为什么要用TF-IDF，IDF取对数而TF不取 ...</p>
-                <a class="readmore" href="/scikit-learnzhong-guan-yu-tf-idfde-ji-suan.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
+<p>至于特征向量为什么要用TF-IDF，IDF取对数而TF不取？似乎有论文从信息论角度给出了比较合理的证明。完全不想看。</p>
+<p>这才刚开始，就感觉到了数学深深的恶意。哎。</p>                </article>
 <p class="paginator">
     Page 1 / 1
 </p>
+            </aside><!-- /#featured -->
+            </ol><!-- /#posts-list -->
             </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
