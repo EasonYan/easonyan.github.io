@@ -21,7 +21,62 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/scikit-learnzhong-guan-yu-tf-idfde-ji-suan.html">scikit-learn中关于TF-IDF的计算</a></h1>
+                    <h1 class="entry-title"><a href="/pa-keng-zhi-lu-pythonti-qu-wen-ben-te-zheng-ci-1.html">爬坑之路：python提取文本特征词(1)</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-07-26T00:00:00">
+                周六 26 七月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/eason.html">eason</a>
+        </address>
+<p>In <a href="/category/mechine-learning.html">mechine learning</a>. </p>
+<p>tags: <a href="/tag/python.html">python</a><a href="/tag/scikit-learn.html">scikit-learn</a><a href="/tag/.html"></a></p>
+</footer><!-- /.post-info --><h6></h6>
+<ol>
+<li>
+<p>连日台风，甚是爽快。不快的是倒在文本分析的第一步上。想来是菜鸟的必由之路。用来练手的是新闻的聚类，3000个文档，用jieba分词，去完stop_words后有72万个词汇，单一词汇有7万个，这7万个词当然不能全部作为文档的特征值。慎重考虑后，一方面出于原理简单，实现容易，采用了DF（document frequency）来初步筛选文本关键词。</p>
+</li>
+<li>
+<p>python实现，最开始傻逼呵呵的将七万个词建立一个字典，遍历词典，对每个关键词遍历3000个文档，每个文档初步去完停用词后是个列表，判断关键词是否在文档列表中，在则字典值+1</p>
+</li>
+</ol>
+<h2>python</h2>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">word</span> <span class="n">in</span> <span class="n">word_dict</span><span class="o">:</span>
+    <span class="k">for</span> <span class="n">docu</span> <span class="n">in</span> <span class="n">documents</span><span class="o">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="n">in</span> <span class="n">docu</span><span class="o">:</span>
+            <span class="n">word_dict</span><span class="p">[</span><span class="n">word</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
+</pre></div>
+
+
+<ol>
+<li>
+<p>毫无疑问，这种做法在python里面绝逼是种撕逼行为啊，用脚趾头算一算，7万<em>3千</em>文档词汇，复杂度是O（KMN)，每份文档有100个词的话，最坏情况都要跑300亿次，就python这速度呀，光个加法计算就要跑——————。无聊跑去C上跑了下，速度差了数十倍。。。哎，当下就感叹脚本语言的悲剧。这样下去水都煮干了，米还没长熟呢，怒摔！</p>
+</li>
+<li>
+<p>偶遇scikit-learn后，发现真是大傻逼，这么好用的库放着不用，跑去写自己的傻逼算法。改进的思路如下：</p>
+</li>
+<li>
+<p>由于是要计算DF值，用scikit-learn.eature_extraction.text.CountVectorizer计算出词频矩阵(稀疏矩阵)。</p>
+</li>
+<li>fit_transform()后，将关键词建立成字典，df_freq</li>
+<li>遍历建立完毕的3000分文档的稀疏矩阵，拿到矩阵的索引，找到对应的关键字，查找字典df_freq，对应键值，+1即可</li>
+</ol>
+<p>这样优化的效果是查找时间为O(1),整个计算df值得复杂度为O(n),蛋，质的飞跃有没有，pa一下3秒钟就计算完毕了！！！</p>
+<p>结尾总要来点总结的话：总觉得python慢呀，其实慢得是自己的思维。善于运用库函数，事实上性能还是不会差到哪去的。以前总觉得，抄袭网上的代码实现的东西，不是自己写的一点都不牛逼。此想法最近颇有改观。善于运用工具，而不是傻逼呵呵的去较真些毫无意义的事情。子弹有限，射程不远，要弹无虚发。。。。。</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/scikit-learnzhong-guan-yu-tf-idfde-ji-suan.html" rel="bookmark"
+                           title="Permalink to scikit-learn中关于TF-IDF的计算">scikit-learn中关于TF-IDF的计算</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-07-20T00:00:00">
                 周日 20 七月 2014
@@ -32,16 +87,17 @@
         </address>
 <p>In <a href="/category/mechine-learning.html">mechine learning</a>. </p>
 <p>tags: <a href="/tag/python.html">python</a><a href="/tag/scikit-learn.html">scikit-learn</a></p>
-</footer><!-- /.post-info --><h6></h6>
+</footer><!-- /.post-info -->                <h6></h6>
 <p>TF-IDF是文本特征向量的一种表达形式，可用于文本聚类和分类。谈及python的mechine learning,难以避免会涉及第三方的库sickit-learn。方便好用，接口多。稍嫌麻烦是其安装过程，pip安装报错，easy_install也莫名奇妙的错误，windows下简直不能忍受。后来一怒之下，上了<a href="http://sourceforge.net/projects/scipy/files/scipy/0.14.0/"><em>sorcepage</em></a>下载可执行文件。exe果真方便啊。</p>
 <p>TF-IDF在scikit-learn中的<em>sklearn.feature_extraction.text</em>给出，那是如何计算呢。一般来讲，TF(term frequency)词在某一文档中出现的频率，IDF(inverse document frequency，IDF),由总文件数目除以包含该词语之文件的数目，再将得到的商取对数。但scikit-learn中的TfidfTransformer类提供了对TF-IDF值的优化，会通过相应参数改变TF-IDF值，其中有“norm”-&gt;是否进行向量规范化，“smooth_idf”-&gt;则会对文档总数、出现次数+1，对数完后再+1。具体stackoverflow上有篇帖子讲得很清楚，源代码也有贴出。<a href="http://stackoverflow.com/questions/24032485/difference-in-values-of-tf-idf-matrix-using-scikit-learn-and-hand-calculation">点此</a>。</p>
-<p>至于特征向量为什么要用TF-IDF，IDF取对数而TF不取？似乎有论文从信息论角度给出了比较合理的证明。完全不想看。</p>
-<p>这才刚开始，就感觉到了数学深深的恶意。哎。</p>                </article>
+<p>至于特征向量为什么要用TF-IDF，IDF取对数而TF不取 ...</p>
+                <a class="readmore" href="/scikit-learnzhong-guan-yu-tf-idfde-ji-suan.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+            </ol><!-- /#posts-list -->
 <p class="paginator">
     Page 1 / 1
 </p>
-            </aside><!-- /#featured -->
-            </ol><!-- /#posts-list -->
             </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
