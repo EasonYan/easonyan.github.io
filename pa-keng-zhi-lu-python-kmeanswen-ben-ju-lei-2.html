@@ -2,7 +2,7 @@
 <html lang="zn">
 <head>
         <meta charset="utf-8" />
-        <title>eason_blog - </title>
+        <title>爬坑之路：python KMeans文本聚类(2)</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -15,13 +15,18 @@
                 <h1><a href="/">eason_blog </a></h1>
                 <nav><ul>
                     <li><a href="/category/bazinga.html">bazinga</a></li>
-                    <li><a href="/category/mechine-learning.html">mechine learning</a></li>
+                    <li class="active"><a href="/category/mechine-learning.html">mechine learning</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/pa-keng-zhi-lu-python-kmeanswen-ben-ju-lei-2.html" rel="bookmark"
+           title="Permalink to 爬坑之路：python KMeans文本聚类(2)">爬坑之路：python KMeans文本聚类(2)</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="/pa-keng-zhi-lu-python-kmeanswen-ben-ju-lei-2.html">爬坑之路：python KMeans文本聚类(2)</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-08-01T00:00:00">
                 周五 01 八月 2014
@@ -32,7 +37,7 @@
         </address>
 <p>In <a href="/category/mechine-learning.html">mechine learning</a>. </p>
 <p>tags: <a href="/tag/python.html">python</a><a href="/tag/scikit-learn.html">scikit-learn</a><a href="/tag/.html"></a></p>
-</footer><!-- /.post-info --><h6></h6>
+</footer><!-- /.post-info -->      <h6></h6>
 <p>折腾了很多天的文本聚类，今天终于以失败告终，不到10%的准确率。稍微总结下。</p>
 <h2>1.  python实现，采用最基本的KMeans聚类算法。</h2>
 <h2>2. 文档的特征值的选取，DF(document frequency)，采用DF值大于80的，即关键词至少出现在不同的80个文档中，方选取为文档的特征值。如此，文档向量维数为1000左右。</h2>
@@ -47,58 +52,11 @@
 
 
 <h2>6. 为了减少计算的重复性，每个文档为一个类，类中包含稀疏矩阵向量，和每个向量的大小。这样计算预先相似度时直接调用这个属性即可。</h2>
-<h2>7. 聚类结果，准确率奇低，迭代一次之后就停止了，我这里设置阈值为10，即只要sse损耗比上一次聚类相差不到10，迭代停止。聚类效果这么差，KMeans 算法在无大出错前提下，就只能是此Kmeans 算法并不适合于做文本聚类，或者是文本特征提取的不好，权重设置的不准确之类。计算速度其实还好，3000个文档，1000矩阵运算，迭代一次的时间为10秒钟左右，具体失败细节，没错，国家情报人员正在努力排查中。哎。</h2>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<h2>7. 聚类结果，准确率奇低，迭代一次之后就停止了，我这里设置阈值为10，即只要sse损耗比上一次聚类相差不到10，迭代停止。聚类效果这么差，KMeans 算法在无大出错前提下，就只能是此Kmeans 算法并不适合于做文本聚类，或者是文本特征提取的不好，权重设置的不准确之类。计算速度其实还好，3000个文档，1000矩阵运算，迭代一次的时间为10秒钟左右，具体失败细节，没错，国家情报人员正在努力排查中。哎。</h2>
+    </div><!-- /.entry-content -->
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/pa-keng-zhi-lu-pythonti-qu-wen-ben-te-zheng-ci-1.html" rel="bookmark"
-                           title="Permalink to 爬坑之路：python提取文本特征词(1)">爬坑之路：python提取文本特征词(1)</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-07-26T00:00:00">
-                周六 26 七月 2014
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/eason.html">eason</a>
-        </address>
-<p>In <a href="/category/mechine-learning.html">mechine learning</a>. </p>
-<p>tags: <a href="/tag/python.html">python</a><a href="/tag/scikit-learn.html">scikit-learn</a><a href="/tag/.html"></a></p>
-</footer><!-- /.post-info -->                <h6></h6>
-<ol>
-<li>
-<p>连日台风，甚是爽快。不快的是倒在文本分析的第一步上。想来是菜鸟的必由之路。用来练手的是新闻的聚类，3000个文档，用jieba分词，去完stop_words后有72万个词汇，单一词汇有7万个，这7万个词当然不能全部作为文档的特征值。慎重考虑后，一方面出于原理简单，实现容易，采用了DF（document frequency）来初步筛选文本关键词。</p>
-</li>
-<li>
-<p>python实现，最开始傻逼呵呵的将七万个词建立一个字典，遍历词典，对每个关键词遍历3000个文档，每个文档初步去完停用词后是个列表，判断关键词是否在文档列表中，在则字典值+1</p>
-</li>
-</ol>
-<h2>python</h2>
-<div class="highlight"><pre><span class="k">for</span> <span class="n">word</span> <span class="n">in</span> <span class="n">word_dict</span><span class="o">:</span>
-    <span class="k">for</span> <span class="n">docu</span> <span class="n">in</span> <span class="n">documents</span><span class="o">:</span>
-        <span class="k">if</span> <span class="n">word</span> <span class="n">in</span> <span class="n">docu</span><span class="o">:</span>
-            <span class="n">word_dict</span><span class="p">[</span><span class="n">word</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
-</pre></div>
-
-
-<ol>
-<li>
-<p>毫无疑问，这种做法在python里面绝逼是种撕逼行为啊，用脚趾头算一算，7万<em>3千</em>文档词汇，复杂度是O（KMN)，每份文档有100个词的话 ...</p></li></ol>
-                <a class="readmore" href="/pa-keng-zhi-lu-pythonti-qu-wen-ben-te-zheng-ci-1.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 1
-</p>
-            </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>
