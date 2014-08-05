@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zn">
+<head>
+        <meta charset="utf-8" />
+        <title>爬坑之路：文本聚类总结(3)</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">eason_blog </a></h1>
+                <nav><ul>
+                    <li><a href="/category/bazinga.html">bazinga</a></li>
+                    <li class="active"><a href="/category/mechine-learning.html">mechine learning</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/pa-keng-zhi-lu-wen-ben-ju-lei-zong-jie-3.html" rel="bookmark"
+           title="Permalink to 爬坑之路：文本聚类总结(3)">爬坑之路：文本聚类总结(3)</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-08-05T00:00:00">
+                周二 05 八月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/eason.html">eason</a>
+        </address>
+<p>In <a href="/category/mechine-learning.html">mechine learning</a>. </p>
+<p>tags: <a href="/tag/python.html">python</a><a href="/tag/scikit-learn.html">scikit-learn</a><a href="/tag/.html"></a></p>
+</footer><!-- /.post-info -->      <h6></h6>
+<p>断续有两个星期的，扎堆在文本聚类上，今天是来画上个顿号的。初衷就是想来做个练手用的，选几个无监督学习的算法，套下文本聚类，到此也大概达到了一半目的。这里用了k-mean和bisecting k-means,没有做太多的优化，也不打算继续去套用其他聚类算法。因为这样下去的学习收获就和付出时间不成正比了。毕竟并不是想一头钻进聚类里面。好聚好散，外面的世界多精彩。大方向的过程如下。</p>
+<p>##1. 选语料，这里用的是数据堂的新闻语料，<a href="http://www.datatang.com/data/11971/">点我</a>分类的算好，但是由于文档大小不一，个别内容太少的文档还是对聚类结果产生了不小的影响</p>
+<p>##2. 采取语料，进行分词，这里采用了<em>jieba</em>分词库，还算挺不错的。</p>
+<p>##3. 预处理，去除停用词，停用词表用的比较杂，主要还是<a href="http://www.datatang.com/datares/go.aspx?dataid=616671">再点我</a>和哈工大停用词表几个词表的融合。</p>
+<p>##4. 特征提取及降维。就此案例，近3000个文档，去停用词后的分词结果为72万词，独立词汇为7万个，采用基本的DF去降维数。所以借助了scikit-learn 去进行文档频率的计算。几次下来发现，采用<em>DF&gt;50</em>的准确率要比采用<em>DF&gt;100</em>高出不少，大概有提高<em>10%</em>的准确率，但代价就是维数因此翻了好几倍，计算量大。</p>
+<p>##5. 之后就是套用聚类算法了。上一篇中讲过K-Mean聚类效果像陀便便，惨不忍睹，后来debug发现其实是我笨得像陀屎，居然将余弦值越接近1向量夹角才越靠近这个概念理解相反了。哎，傻逼了。具体的K-mean算法也不贴了，可具体参考我上一篇给出的链接，再根据自己实际需求更改。算法其实不难，难的是对<em>迭代终止条件</em>的设立。爬的最深的一个坑就是，按照每个文档与他们中心的余弦值之和作为聚类准则函数的话，准则函数并不是收敛的！反而是递增的！这个完全无法理解，也卡在这里很久，后来就直接用迭代次数的方法来终止迭代，在这个案例中迭代个5,6次，也就也就大概差不多了。</p>
+<p>##6. 聚类的效果:k-mean的聚类效果不稳定，可能是随机采用中心的原因，另外一些离群点（像非常稀疏的，过滤完后只有一两个词的文档）也没有去处理。总结是在计算机，经济，政治，艺术这几大类的聚类结果比较纯净，准确率很高，90%+。
+  ##7. bisecting k-means的聚类中迭代，选簇用的是最大sse即准则函数，这种选法比选取最大个数的簇要好得多，但可能实际应用的话要两者都结合起来。比较懒，也不去做了（呵呵，我不会难道也要告诉你么），bisecting k-means的聚类效果也是挺不稳定，但在特定的几个类别，如计算机，政治，经济，教育等聚类效果也都挺不错，所以我估计会不会是语料的选取。可能本身语料的质量也不是很高呀。这也是我为什么不进行优化的原因，在知识水平不够的前提下，根本无法判定当下的误差是由哪个大问题造成的，茫茫然扎进去，得不偿失。</p>
+<p>##100. 巴拉巴拉总结的话：虽然说是练手的，但几次实验下来聚类效果有5,60%。也是觉得挺OK了，初步练手的目的也算达到。虽说没多大技术含量，也行呗。好歹端正了以往的些许观念。世界是无穷尽的，并不是你做一样东西什么都要从零开始，可以发明工具，那就勇敢的去。做不到，就要利用工具，为你节省时间和精力，计算的东西交给计算机。本末倒置是很可怕，分析和解决问题，才是大头。年轻的时候，总还是会有很多狭隘的观念呀，该走的坑，一个都不会少。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
